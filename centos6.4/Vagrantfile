@@ -13,17 +13,28 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # doesn't already exist on the user's system.
 
   # CentOS 6.4 x86_64 Minimal (VirtualBox Guest Additions 4.2.12, Chef 11.4.4, Puppet 3.1.1)
-  config.vm.box_url = "http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20130427.box"
+  config.vm.box_url = "http://developer.nrel.gov/downloads/vagrant-boxes/CentOS-6.4-x86_64-v20130731.box"
 
   config.vm.provider :virtualbox do |vb|
     vb.customize ["modifyvm", :id, "--memory", 2048] # RAM allocated to each VM
   end
 
+  # setup your host folder what will be mounted on guest /host/ folder
+  config.vm.synced_folder  "/path/to/dir", "/host/"
   config.vm.provision :shell, :path => "bootstrap.sh"
 
   config.vm.define :c6401 do |c6401|
-    # uncomment the line below to set up the ambari dev environment
-    # c6401.vm.provision :shell, :path => "dev-bootstrap.sh"
+    # no need in development dependencies if we gonna install from repo
+    config.vm.provision :shell, :path => "dev-bootstrap.sh" unless ENV['INSTALL_OPTIONS'] =~ /--repo/
+    c6401.vm.provision :shell do |shell|
+      shell.path = "sh/ambari-install.sh"
+      if ENV['INSTALL_OPTIONS']
+        shell.args = ENV['INSTALL_OPTIONS'].split(/\s/)
+      else
+        shell.args = "--repo"
+      end
+    end
+
     c6401.vm.hostname = "c6401.ambari.apache.org"
     c6401.vm.network :private_network, ip: "192.168.64.101"
   end
@@ -72,18 +83,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     c6410.vm.hostname = "c6410.ambari.apache.org"
     c6410.vm.network :private_network, ip: "192.168.64.110"
   end
-
-
-
-
-
-
-
-
-
-
-
-
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
