@@ -10,8 +10,8 @@ echo_h "*** INSTALL: Node.js ***"
 wget http://nodejs.org/dist/v0.10.15/node-v0.10.15-linux-x64.tar.gz
 tar zxvf node-v0.10.15-linux-x64.tar.gz
 mv node-v0.10.15-linux-x64 /usr/share/node
-ln -s /usr/share/node/bin/node /usr/local/bin/node
-ln -s /usr/share/node/bin/npm /usr/local/bin/npm
+ln -s /usr/share/node/bin/node /usr/sbin/node
+ln -s /usr/share/node/bin/npm /usr/sbin/npm
 rm -f node-v0.10.15-linux-x64.tar.gz
 echo_h "*** INSTALL: Python 2.6 ***"
 wget --no-check-certificate http://pypi.python.org/packages/2.6/s/setuptools/setuptools-0.6c11-py2.6.egg
@@ -23,7 +23,7 @@ echo_h "*** INSTALL: Maven 3.0.5 ***"
 wget http://apache.cp.if.ua/maven/maven-3/3.0.5/binaries/apache-maven-3.0.5-bin.tar.gz
 tar zxvf apache-maven-3.0.5-bin.tar.gz
 mv apache-maven-3.0.5 /usr/share/maven
-ln -nfs /usr/share/maven/bin/mvn /usr/local/bin/mvn
+ln -nfs /usr/share/maven/bin/mvn /usr/sbin/mvn
 rm -f apache-maven-3.0.5-bin.tar.gz
 
 
