@@ -6,7 +6,7 @@ default_repo_url="/path/to/ambari.repo"
 # git repository url which ambari project will be cloned
 default_git_url="/git/url"
 # ambari version target for manual build
-build_version="1.5"
+build_version="1.5.0"
 
 # this function will call after ambari-server and ambari-agent installation
 function on_finish {
