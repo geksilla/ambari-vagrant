@@ -20,18 +20,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # setup your host folder what will be mounted on guest /host/ folder
-  config.vm.synced_folder  "/path/to/dir", "/host/"
+  # config.vm.synced_folder  "/path/to/dir", "/host/"
   config.vm.provision :shell, :path => "bootstrap.sh"
 
   config.vm.define :c6401 do |c6401|
     # no need in development dependencies if we gonna install from repo
     config.vm.provision :shell, :path => "dev-bootstrap.sh" unless ENV['INSTALL_OPTIONS'] =~ /--repo/
-    c6401.vm.provision :shell do |shell|
-      shell.path = "sh/ambari-install.sh"
-      if ENV['INSTALL_OPTIONS']
-        shell.args = ENV['INSTALL_OPTIONS'].split(/\s/)
-      else
-        shell.args = "--repo"
+    unless ENV['INSTALL_OPTIONS'] =~ /--no/
+      c6401.vm.provision :shell do |shell|
+        shell.path = "sh/ambari-install.sh"
+        if ENV['INSTALL_OPTIONS']
+          shell.args = ENV['INSTALL_OPTIONS'].split(/\s/)
+        else
+          shell.args = "--repo"
+        end
       end
     end
 
