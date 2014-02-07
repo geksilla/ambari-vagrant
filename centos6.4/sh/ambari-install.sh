@@ -18,7 +18,11 @@ if [[ ($1 == "--local") || ($1 == "--git")]]; then
   fi
   echo "*** Build rpm ***"
   cd $AMBARI_DIR
-  mvn clean package rpm:rpm -DskipTests=true -DambariVersion=$build_version
+  if [[ -z $build_version ]]; then
+    mvn clean package rpm:rpm -DskipTests=true
+  else
+    mvn clean package rpm:rpm -DskipTests=true -DambariVersion=$build_version
+  fi
   echo_h "*** Install ambari-server ***"
   yum install $AMBARI_DIR/ambari-server/target/rpm/ambari-server/RPMS/noarch/*.rpm -y
   echo_h "*** Install ambari-agent ***"
