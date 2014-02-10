@@ -2,7 +2,7 @@
 source ambari_conf.sh
 
 if [ -z "$2" ]; then
-  options="--repo $default_repo_url"
+  options=$default_options
 elif [[ ($2 == "--repo") && ( -z $3)]]; then
   options="$2 $default_repo_url"
 else
