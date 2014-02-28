@@ -13,6 +13,7 @@ mv node-v0.10.15-linux-x64 /usr/share/node
 ln -s /usr/share/node/bin/node /usr/sbin/node
 ln -s /usr/share/node/bin/npm /usr/sbin/npm
 rm -f node-v0.10.15-linux-x64.tar.gz
+npm config set ca ""
 echo_h "*** INSTALL: Python 2.6 ***"
 wget --no-check-certificate http://pypi.python.org/packages/2.6/s/setuptools/setuptools-0.6c11-py2.6.egg
 sh setuptools-0.6c11-py2.6.egg
